@@ -13,11 +13,23 @@ local isAutoMode = true -- Flag untuk menandai mode (otomatis/manual), awalnya d
 -- Function untuk toggle event
 local function toggleEvent()
     isEventEnabled = not isEventEnabled
+    if isEventEnabled then
+        toggleEventButton.Text = "Turn Off"
+        toggleEventButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    else
+        toggleEventButton.Text = "Turn On"
+        toggleEventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    end
 end
 
 -- Function untuk toggle mode (otomatis/manual)
 local function toggleMode()
     isAutoMode = not isAutoMode
+    if isAutoMode then
+        switchModeButton.Text = "Automatic Mode"
+    else
+        switchModeButton.Text = "Manual Mode"
+    end
 end
 
 -- Create UI frame and buttons
@@ -61,23 +73,11 @@ toggleEventButton.Parent = frame
 -- Function untuk menangani klik tombol toggle mode
 switchModeButton.MouseButton1Click:Connect(function()
     toggleMode() -- Toggle mode
-    if isAutoMode then
-        switchModeButton.Text = "Automatic Mode"
-    else
-        switchModeButton.Text = "Manual Mode"
-    end
 end)
 
 -- Function untuk menangani klik tombol toggle event
 toggleEventButton.MouseButton1Click:Connect(function()
     toggleEvent() -- Toggle event
-    if isEventEnabled then
-        toggleEventButton.Text = "Turn Off"
-        toggleEventButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    else
-        toggleEventButton.Text = "Turn On"
-        toggleEventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-    end
 end)
 
 -- Loop utama (untuk mode otomatis)
