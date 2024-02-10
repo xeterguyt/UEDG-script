@@ -1,47 +1,14 @@
-local args = {
-    [1] = "Sword Smash",
-    [2] = true,
-    [3] = true,
-    [4] = 10000,
-    [5] = 0
-}
-
-local cooldown = 2 -- Cooldown time in seconds
-local isEventEnabled = false -- Flag untuk melacak apakah event diaktifkan, awalnya diatur sebagai false
-local isAutoMode = true -- Flag untuk menandai mode (otomatis/manual), awalnya diatur sebagai otomatis
-
--- Function untuk toggle event
-local function toggleEvent()
-    isEventEnabled = not isEventEnabled
-    if isEventEnabled then
-        toggleEventButton.Text = "Turn Off"
-        toggleEventButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    else
-        toggleEventButton.Text = "Turn On"
-        toggleEventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-    end
-end
-
--- Function untuk toggle mode (otomatis/manual)
-local function toggleMode()
-    isAutoMode = not isAutoMode
-    if isAutoMode then
-        switchModeButton.Text = "Automatic Mode"
-    else
-        switchModeButton.Text = "Manual Mode"
-    end
-end
-
 -- Create UI frame and buttons
-local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
-gui.Parent = player.PlayerGui
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
 frame.Position = UDim2.new(0.5, -100, 0.5, -75)
 frame.Size = UDim2.new(0, 200, 0, 150)
 frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 frame.BorderSizePixel = 0
+frame.Active = true  -- Set frame to be interactable
+frame.Draggable = true  -- Allow frame to be draggable
 frame.Parent = gui
 
 local title = Instance.new("TextLabel")
@@ -61,29 +28,65 @@ switchModeButton.BorderSizePixel = 0
 switchModeButton.TextColor3 = Color3.new(1, 1, 1)
 switchModeButton.Parent = frame
 
-local toggleEventButton = Instance.new("TextButton")
-toggleEventButton.Position = UDim2.new(0.5, -75, 0, 80)
-toggleEventButton.Size = UDim2.new(0, 150, 0, 30)
-toggleEventButton.Text = "Turn On"
-toggleEventButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-toggleEventButton.BorderSizePixel = 0
-toggleEventButton.TextColor3 = Color3.new(1, 1, 1)
-toggleEventButton.Parent = frame
+-- Function untuk toggle mode (otomatis/manual)
+local isAutoMode = true
+local isEventEnabled = false
+
+local function toggleMode()
+    isAutoMode = not isAutoMode
+    switchModeButton.Text = isAutoMode and "Automatic Mode" or "Manual Mode"
+end
+
+-- Function untuk menjalankan perintah Smash Attack (Sword Smash)
+local function executeSmashAttack()
+    local args = {
+        [1] = "Sword Smash",
+        [2] = true,
+        [3] = true,
+        [4] = 10000,
+        [5] = 0
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Player"):WaitForChild("Skill"):FireServer(unpack(args))
+end
+
+-- Function untuk menjalankan perintah Smash Attack secara berulang dengan cooldown
+local function repeatAttack()
+    while isEventEnabled and isAutoMode do
+        executeSmashAttack()
+        wait(2) -- Cooldown 2 detik
+    end
+end
+
+-- Create separate UI for manual mode
+local manualGui = Instance.new("ScreenGui")
+manualGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local manualFrame = Instance.new("Frame")
+manualFrame.Position = UDim2.new(1, -150, 0.5, -75)
+manualFrame.Size = UDim2.new(0, 50, 0, 50)
+manualFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+manualFrame.BorderSizePixel = 0
+manualFrame.Parent = manualGui
+
+local attackButton = Instance.new("TextButton")
+attackButton.Position = UDim2.new(0, 0, 0.5, -15)
+attackButton.Size = UDim2.new(1, 0, 0, 30)
+attackButton.Text = "Attack"
+attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+attackButton.BorderSizePixel = 0
+attackButton.TextColor3 = Color3.new(1, 1, 1)
+attackButton.Visible = false  -- Awalnya tombol attack tidak terlihat
+attackButton.Parent = manualFrame
+
+-- Function untuk menangani klik tombol Attack pada mode manual
+attackButton.MouseButton1Click:Connect(function()
+    executeSmashAttack() -- Jalankan perintah Smash Attack ketika tombol Attack diklik
+end)
 
 -- Function untuk menangani klik tombol toggle mode
 switchModeButton.MouseButton1Click:Connect(function()
     toggleMode() -- Toggle mode
-end)
-
--- Function untuk menangani klik tombol toggle event
-toggleEventButton.MouseButton1Click:Connect(function()
-    toggleEvent() -- Toggle event
-end)
-
--- Loop utama (untuk mode otomatis)
-while true do
-    if isEventEnabled and isAutoMode then
-        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Player"):WaitForChild("Skill"):FireServer(unpack(args))
+    if isAutoMode and isEventEnabled then
+        spawn(repeatAttack) -- Mulai menyerang secara berulang jika mode otomatis dan event dinyalakan
     end
-    wait(cooldown)
-end
+end)
