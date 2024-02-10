@@ -32,9 +32,17 @@ switchModeButton.Parent = frame
 local isAutoMode = true
 local isEventEnabled = false
 
+local attackButton -- Tambahkan inisialisasi attackButton di sini
+
 local function toggleMode()
     isAutoMode = not isAutoMode
     switchModeButton.Text = isAutoMode and "Automatic Mode" or "Manual Mode"
+    
+    -- Tampilkan tombol attack saat mode diubah menjadi "Manual Mode"
+    if attackButton then
+        attackButton.Visible = not isAutoMode 
+    end
+    print("Mode telah diubah menjadi", isAutoMode and "Automatic" or "Manual")
 end
 
 -- Function untuk menjalankan perintah Smash Attack (Sword Smash)
@@ -58,25 +66,24 @@ local function repeatAttack()
 end
 
 -- Create separate UI for manual mode
-local manualGui = Instance.new("ScreenGui")
-manualGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
 local manualFrame = Instance.new("Frame")
 manualFrame.Position = UDim2.new(1, -150, 0.5, -75)
-manualFrame.Size = UDim2.new(0, 50, 0, 50)
+manualFrame.Size = UDim2.new(0, 150, 0, 150)
 manualFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 manualFrame.BorderSizePixel = 0
-manualFrame.Parent = manualGui
+manualFrame.Parent = gui
 
-local attackButton = Instance.new("TextButton")
+-- Inisialisasi tombol Attack
+attackButton = Instance.new("TextButton")
 attackButton.Position = UDim2.new(0, 0, 0.5, -15)
-attackButton.Size = UDim2.new(1, 0, 0, 30)
-attackButton.Text = "Attack"
-attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+attackButton.Size = UDim2.new(0, 30, 0, 30)  -- Ubah ukuran menjadi persegi
+attackButton.Text = "A"  -- Ubah teks menjadi singkat, misalnya "A"
+attackButton.TextScaled = true  -- Tekstur otomatis diubah ke dalam ukuran tombol
+attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Ubah warna menjadi hijau
 attackButton.BorderSizePixel = 0
 attackButton.TextColor3 = Color3.new(1, 1, 1)
 attackButton.Visible = false  -- Awalnya tombol attack tidak terlihat
-attackButton.Parent = manualFrame
+attackButton.Parent = manualFrame  -- Masukkan tombol ke dalam manualFrame
 
 -- Function untuk menangani klik tombol Attack pada mode manual
 attackButton.MouseButton1Click:Connect(function()
