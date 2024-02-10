@@ -89,20 +89,16 @@ button2.TextColor3 = Color3.new(1, 1, 1)
 button2.Font = Enum.Font.Ubuntu
 button2.Parent = frame
 
--- Fungsi untuk menangani klik tombol 1
-button1.MouseButton1Click:Connect(function()
-    toggleEvent() -- Toggle event
-end)
-
--- Fungsi untuk menangani klik tombol 2 (mode)
-button2.MouseButton1Click:Connect(function()
-    toggleMode() -- Toggle mode
-end)
-
--- Fungsi untuk menangani klik tombol Attack (manual mode)
-button1.MouseButton1Click:Connect(function()
-    handleManualAttack() -- Handle manual attack
-end)
+-- Buat tombol minimize
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Position = UDim2.new(1, -20, 0, 0)
+minimizeButton.Size = UDim2.new(0, 20, 0, 20)
+minimizeButton.Text = "-"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimizeButton.BorderSizePixel = 0
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.Font = Enum.Font.Ubuntu
+minimizeButton.Parent = title
 
 -- Fungsi untuk minimize frame
 local isMinimized = false
@@ -129,20 +125,24 @@ local function toggleFrame()
     end
 end
 
--- Buat tombol minimize
-local minimizeButton = Instance.new("TextButton")
-minimizeButton.Position = UDim2.new(1, -20, 0, 0)
-minimizeButton.Size = UDim2.new(0, 20, 0, 20)
-minimizeButton.Text = "-"
-minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-minimizeButton.BorderSizePixel = 0
-minimizeButton.TextColor3 = Color3.new(1, 1, 1)
-minimizeButton.Font = Enum.Font.Ubuntu
-minimizeButton.Parent = title
-
 -- Fungsi untuk menangani klik tombol minimize
 minimizeButton.MouseButton1Click:Connect(function()
     toggleFrame() -- Toggle frame
+end)
+
+-- Fungsi untuk menangani klik tombol 1
+button1.MouseButton1Click:Connect(function()
+    toggleEvent() -- Toggle event
+end)
+
+-- Fungsi untuk menangani klik tombol 2 (mode)
+button2.MouseButton1Click:Connect(function()
+    toggleMode() -- Toggle mode
+end)
+
+-- Fungsi untuk menangani klik tombol Attack (manual mode)
+button1.MouseButton1Click:Connect(function()
+    handleManualAttack() -- Handle manual attack
 end)
 
 -- Fungsi untuk drag frame
