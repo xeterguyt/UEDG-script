@@ -67,16 +67,16 @@ end
 
 -- Create separate UI for manual mode
 local manualFrame = Instance.new("Frame")
-manualFrame.Position = UDim2.new(1, -150, 0.5, -75)
-manualFrame.Size = UDim2.new(0, 150, 0, 150)
+manualFrame.Position = UDim2.new(1, -50, 0.5, -50)
+manualFrame.Size = UDim2.new(0, 30, 0, 30)  -- Ubah ukuran sesuai dengan ukuran tombol
 manualFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 manualFrame.BorderSizePixel = 0
 manualFrame.Parent = gui
 
 -- Inisialisasi tombol Attack
 attackButton = Instance.new("TextButton")
-attackButton.Position = UDim2.new(0, 0, 0.5, -15)
-attackButton.Size = UDim2.new(0, 30, 0, 30)  -- Ubah ukuran menjadi persegi
+attackButton.Position = UDim2.new(0, 0, 0, 0)
+attackButton.Size = UDim2.new(1, 0, 1, 0)  -- Ukuran frame sesuai dengan ukuran tombol
 attackButton.Text = "A"  -- Ubah teks menjadi singkat, misalnya "A"
 attackButton.TextScaled = true  -- Tekstur otomatis diubah ke dalam ukuran tombol
 attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Ubah warna menjadi hijau
