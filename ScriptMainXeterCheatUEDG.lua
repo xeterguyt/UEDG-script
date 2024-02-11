@@ -38,7 +38,7 @@ local function createGui()
     local title = Instance.new("TextLabel")
     title.Size = UDim2.new(1, 0, 0, 20)
     title.Position = UDim2.new(0, 0, 0, 0)
-    title.Text = "Cheat Menu"
+    title.Text = "Xeter UEDG Cheat | v0.4"
     title.TextColor3 = Color3.new(1, 1, 1)
     title.BackgroundTransparency = 1
     title.Parent = mainFrame
