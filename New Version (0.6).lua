@@ -99,13 +99,22 @@ local function createGui()
 
     attackButton = Instance.new("TextButton")
     attackButton.Size = UDim2.new(0.8, 0, 0.8, 0)
-    attackButton.Position = UDim2.new(0, 1, 0, 1)
+    attackButton.Position = UDim2.new(0.1, 0, 0.1, 0)
     attackButton.Text = "A"
     attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
     attackButton.BorderSizePixel = 0
     attackButton.TextColor3 = Color3.new(1, 1, 1)
     attackButton.Visible = false
     attackButton.Parent = attackFrame
+
+--Attack Button Outline
+    local AttackFrameOutline = Instance.new("Frame")
+    AttackFrameOutline.Size = UDim2.new(1, 4, 1, 4)
+    AttackFrameOutline.Position = UDim2.new(0, -2, 0, -2)
+    AttackFrameOutline.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+    AttackFrameOutline.BorderSizePixel = 0
+    AttackFrameOutline.ZIndex = attackFrame.ZIndex - 1
+    AttackFrameOutline.Parent = attackFrame
 
     
     -- Create skill selection buttons
