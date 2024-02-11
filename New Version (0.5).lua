@@ -1,5 +1,6 @@
 local Version = "0.5"
--- Create UI frame and buttons
+-- Create UI frame and button
+
 local isAutoMode = true
 
 local autoCooldown = 2 -- Default cooldown for automatic attack
