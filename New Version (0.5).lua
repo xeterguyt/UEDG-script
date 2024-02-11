@@ -6,7 +6,7 @@ local isAutoMode = true
 local autoCooldown = 2 -- Default cooldown for automatic attack
 local currentSkillIndex = 1 -- Default index for selected skill
 
-local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Zephyr Cut v2"} -- List of available skills
+local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Area Heal"} -- List of available skills
 
 local function toggleMode()
     isAutoMode = not isAutoMode
@@ -86,18 +86,19 @@ local function createGui()
     mainFrameOutline.ZIndex = mainFrame.ZIndex - 1
     mainFrameOutline.Parent = mainFrame
 
+    -- Attack button
     local attackGui = Instance.new("ScreenGui")
     attackGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
     local attackFrame = Instance.new("Frame")
-    attackFrame.Size = UDim2.new(0, 30, 0, 30)
+    attackFrame.Size = UDim2.new(0, 60, 0, 60)
     attackFrame.Position = UDim2.new(1, -40, 0.5, -15)
     attackFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     attackFrame.BorderSizePixel = 0
     attackFrame.Parent = attackGui
 
     attackButton = Instance.new("TextButton")
-    attackButton.Size = UDim2.new(1, 0, 1, 0)
+    attackButton.Size = UDim2.new(0.8, 0, 0.8, 0)
     attackButton.Position = UDim2.new(0, 0, 0, 0)
     attackButton.Text = "A"
     attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
