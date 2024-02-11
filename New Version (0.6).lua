@@ -99,7 +99,7 @@ local function createGui()
 
     attackButton = Instance.new("TextButton")
     attackButton.Size = UDim2.new(0.8, 0, 0.8, 0)
-    attackButton.Position = UDim2.new(0, 0, 0, 0)
+    attackButton.Position = UDim2.new(0, 1, 0, 1)
     attackButton.Text = "A"
     attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
     attackButton.BorderSizePixel = 0
