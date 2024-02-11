@@ -6,7 +6,7 @@ local isAutoMode = true
 local autoCooldown = 2 -- Default cooldown for automatic attack
 local currentSkillIndex = 1 -- Default index for selected skill
 
-local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Area Healing"} -- List of available skills
+local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Healing Wave"} -- List of available skills
 
 local function toggleMode()
     isAutoMode = not isAutoMode
