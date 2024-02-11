@@ -6,7 +6,7 @@ local isAutoMode = true
 local autoCooldown = 2 -- Default cooldown for automatic attack
 local currentSkillIndex = 1 -- Default index for selected skill
 
-local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Area Heal"} -- List of available skills
+local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Area Healing"} -- List of available skills
 
 local function toggleMode()
     isAutoMode = not isAutoMode
@@ -92,7 +92,7 @@ local function createGui()
 
     local attackFrame = Instance.new("Frame")
     attackFrame.Size = UDim2.new(0, 60, 0, 60)
-    attackFrame.Position = UDim2.new(1, -40, 0.5, -15)
+    attackFrame.Position = UDim2.new(1, -50, 0.5, -15)
     attackFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     attackFrame.BorderSizePixel = 0
     attackFrame.Parent = attackGui
