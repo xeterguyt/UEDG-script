@@ -1,9 +1,11 @@
+local Version = "0.5"
 -- Create UI frame and buttons
 local isAutoMode = true
+
 local autoCooldown = 2 -- Default cooldown for automatic attack
 local currentSkillIndex = 1 -- Default index for selected skill
 
-local skills = {"Sword Smash", "Heavy Slash"} -- List of available skills
+local skills = {"Sword Smash", "Heavy Slash", "Zephyr Cut", "Zephyr Cut v2"} -- List of available skills
 
 local function toggleMode()
     isAutoMode = not isAutoMode
@@ -20,7 +22,7 @@ local function executeSkill(skillName)
         [2] = true,
         [3] = false,
         [4] = 100,
-        [5] = 0 -- Changed from 1 to 0
+        [5] = 0 -- Mana consumption
     }
     game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Player"):WaitForChild("Skill"):FireServer(unpack(args))
 end
@@ -41,7 +43,7 @@ local function createGui()
     local title = Instance.new("TextLabel")
     title.Size = UDim2.new(1, 0, 0, 20)
     title.Position = UDim2.new(0, 0, 0, 0)
-    title.Text = "Xeter UEDG Cheat | v0.4"
+    title.Text = "Xeter UEDG Cheat | v" .. Version
     title.TextColor3 = Color3.new(1, 1, 1)
     title.BackgroundTransparency = 1
     title.Parent = mainFrame
@@ -73,6 +75,37 @@ local function createGui()
     cooldownInput.TextColor3 = Color3.new(0, 0, 0)
     cooldownInput.Parent = mainFrame
 
+
+-- Create outline for mainFrame
+    local mainFrameOutline = Instance.new("Frame")
+    mainFrameOutline.Size = UDim2.new(1, 4, 1, 4)
+    mainFrameOutline.Position = UDim2.new(0, -2, 0, -2)
+    mainFrameOutline.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+    mainFrameOutline.BorderSizePixel = 0
+    mainFrameOutline.ZIndex = mainFrame.ZIndex - 1
+    mainFrameOutline.Parent = mainFrame
+
+    local attackGui = Instance.new("ScreenGui")
+    attackGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local attackFrame = Instance.new("Frame")
+    attackFrame.Size = UDim2.new(0, 30, 0, 30)
+    attackFrame.Position = UDim2.new(1, -40, 0.5, -15)
+    attackFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    attackFrame.BorderSizePixel = 0
+    attackFrame.Parent = attackGui
+
+    attackButton = Instance.new("TextButton")
+    attackButton.Size = UDim2.new(1, 0, 1, 0)
+    attackButton.Position = UDim2.new(0, 0, 0, 0)
+    attackButton.Text = "A"
+    attackButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    attackButton.BorderSizePixel = 0
+    attackButton.TextColor3 = Color3.new(1, 1, 1)
+    attackButton.Visible = false
+    attackButton.Parent = attackFrame
+
+    
     -- Create skill selection buttons
     local skillLabel = Instance.new("TextLabel")
     skillLabel.Size = UDim2.new(1, 0, 0, 20)
