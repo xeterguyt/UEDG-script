@@ -49,6 +49,15 @@ local function createGui()
     title.BackgroundTransparency = 1
     title.Parent = mainFrame
 
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 20)
+    title.Position = UDim2.new(0, 0, 0, 0)
+    title.Text = "Note: if you were using this cheat, remember, I'M NOT RESPONSIBLE FOR ANYTHING THAT COULD HAPPEN"
+    title.TextColor3 = Color3.new(200, 50, 1)
+    title.BackgroundTransparency = 1
+    title.Parent = mainFrame
+
+    
     switchModeButton = Instance.new("TextButton")
     switchModeButton.Size = UDim2.new(0, 150, 0, 30)
     switchModeButton.Position = UDim2.new(0.5, -75, 0, 40)
