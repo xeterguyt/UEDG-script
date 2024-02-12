@@ -1,4 +1,4 @@
-local Version = "0.6"
+local Version = "0.6.2"
 -- Create UI frame and button
 
 local isAutoMode = true
@@ -49,13 +49,26 @@ local function createGui()
     title.BackgroundTransparency = 1
     title.Parent = mainFrame
 
-    local warning = Instance.new("TextLabel")
-    warning.Size = UDim2.new(1, 0, 0, 10)
-    warning.Position = UDim2.new(0, 0, -30, 0)
-    warning.Text = "Note: if you were using this cheat, remember, I'M NOT RESPONSIBLE FOR ANYTHING THAT COULD HAPPEN"
-    warning.TextColor3 = Color3.new(200, 50, 1)
-    warning.BackgroundTransparency = 1
-    warning.Parent = mainFrame
+    
+local warning = Instance.new("TextLabel")
+warning.Size = UDim2.new(1, 0, 0.5, -200)
+warning.Position = UDim2.new(0, 0, 0, 0)
+warning.TextWrapped = true
+warning.Text = "Note: if you were using this cheat, remember, I'M NOT RESPONSIBLE FOR ANYTHING THAT COULD HAPPEN"
+warning.TextColor3 = Color3.new(1, 0, 0)
+warning.BackgroundTransparency = 1
+warning.Parent = mainFrame
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -20, 0, 5)
+closeButton.Text = "X"
+closeButton.Parent = warning
+
+closeButton.MouseButton1Click:Connect(function()
+    warning.Visible = false
+end)
+
 
     
     switchModeButton = Instance.new("TextButton")
