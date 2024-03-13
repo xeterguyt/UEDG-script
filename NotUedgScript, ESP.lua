@@ -1,3 +1,107 @@
+-- Hp bar
+
+-- Function to create health bar
+local function createHealthBar()
+    -- Create a ScreenGui for the health bar
+    local healthGui = Instance.new("ScreenGui")
+    healthGui.Name = "HealthGui"
+    healthGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Create a Frame for the health bar background
+    local backgroundFrame = Instance.new("Frame")
+    backgroundFrame.Name = "BackgroundFrame"
+    backgroundFrame.Size = UDim2.new(0.2, 0, 0.05, 0)
+    backgroundFrame.Position = UDim2.new(0.4, 0, 0.01, 0)
+    backgroundFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+    backgroundFrame.BorderSizePixel = 2
+    backgroundFrame.Parent = healthGui
+
+    -- Create a Frame for the health bar
+    local healthFrame = Instance.new("Frame")
+    healthFrame.Name = "HealthFrame"
+    healthFrame.Size = UDim2.new(1, -4, 1, -4)
+    healthFrame.Position = UDim2.new(0, 2, 0, 2)
+    healthFrame.BackgroundColor3 = Color3.new(0, 1, 0)
+    healthFrame.BorderSizePixel = 0
+    healthFrame.Parent = backgroundFrame
+
+    -- Create a TextLabel for the health percentage indicator
+    local percentageLabel = Instance.new("TextLabel")
+    percentageLabel.Name = "PercentageLabel"
+    percentageLabel.Size = UDim2.new(0.2, 0, 0.5, 0)
+    percentageLabel.Position = UDim2.new(0.4, 0, 0.25, 0)
+    percentageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+    percentageLabel.BackgroundTransparency = 1
+    percentageLabel.TextColor3 = Color3.new(1, 1, 1)
+    percentageLabel.Font = Enum.Font.SourceSansBold
+    percentageLabel.TextSize = 14
+    percentageLabel.Parent = backgroundFrame
+
+    return backgroundFrame, healthFrame, percentageLabel
+end
+
+-- Function to update the health bar
+local function updateHealth(healthFrame, percentageLabel)
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            local maxHealth = humanoid.MaxHealth
+            local currentHealth = math.clamp(humanoid.Health, 0, maxHealth)
+            local healthPercentage = currentHealth / maxHealth
+            
+            -- Update the size of the health bar
+            healthFrame.Size = UDim2.new(math.clamp(healthPercentage, 0, 1), -4, 1, -4)
+            
+            -- Change color based on health percentage
+            if healthPercentage >= 0.5 then
+                healthFrame.BackgroundColor3 = Color3.new(0, 1, 0) -- Green
+            elseif healthPercentage >= 0.2 then
+                healthFrame.BackgroundColor3 = Color3.new(1, 1, 0) -- Yellow
+            else
+                healthFrame.BackgroundColor3 = Color3.new(1, 0, 0) -- Red
+            end
+            
+            -- Update the percentage label
+            percentageLabel.Text = tostring(math.floor(healthPercentage * 100)) .. "%"
+            percentageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+        end
+    end
+end
+
+-- Function to handle character added event
+local function characterAdded(character)
+    wait() -- wait for the character to fully load
+    updateHealth(healthFrame, percentageLabel)
+    
+    -- Connect to humanoid's health change event
+    character:WaitForChild("Humanoid").Changed:Connect(function(property)
+        if property == "Health" then
+            updateHealth(healthFrame, percentageLabel)
+        end
+    end)
+end
+
+-- Recreate health bar whenever player respawns
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    -- Create health bar
+    backgroundFrame, healthFrame, percentageLabel = createHealthBar()
+    
+    -- Handle initial update
+    characterAdded(character)
+end)
+
+-- Handle initial character
+if game.Players.LocalPlayer.Character then
+    -- Create health bar
+    backgroundFrame, healthFrame, percentageLabel = createHealthBar()
+    
+    -- Handle initial update
+    characterAdded(game.Players.LocalPlayer.Character)
+end
+
+--  ------------------------- hmmmm this us the BORDER SUR!!
+
 -- Function to calculate distance between two points
 local function distance(p1, p2)
     return (p2 - p1).magnitude
