@@ -100,7 +100,14 @@ if game.Players.LocalPlayer.Character then
     characterAdded(game.Players.LocalPlayer.Character)
 end
 
---  ------------------------- hmmmm this us the BORDER SUR!!
+--  ------------------------- hmmmm this us the BORDER SUR!!!
+
+
+
+
+
+
+
 
 -- Function to calculate distance between two points
 local function distance(p1, p2)
@@ -109,6 +116,8 @@ end
 
 -- Boolean variable to control ESP visibility
 local IsEspEnabled = false
+-- Variables (not really important)
+local UpdateTime = 0.1
 
 -- Function to toggle ESP visibility
 local function ToggleEspVisibility()
@@ -116,32 +125,44 @@ local function ToggleEspVisibility()
 end
 
 -- Create a GUI button for toggling ESP
-local Buttons1 = Instance.new("ScreenGui")
+local function createEspButton()
+    local Buttons1 = Instance.new("ScreenGui")
     Buttons1.Parent = game.Players.LocalPlayer.PlayerGui
-
-
-local EspToggleFrame = Instance.new("Frame")
+    
+    local EspToggleFrame = Instance.new("Frame")
     EspToggleFrame.Size = UDim2.new(0, 60, 0, 60)
     EspToggleFrame.Position = UDim2.new(1, -100, 0.5, -15)
     EspToggleFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     EspToggleFrame.BorderSizePixel = 4
     EspToggleFrame.Parent = Buttons1
     
-local buttonEsp = Instance.new("TextButton")
-buttonEsp.Name = "ButtonEsp"
-buttonEsp.Size = UDim2.new(0.8, 0, 0.8, 0)
-buttonEsp.Position = UDim2.new(0.1, 0, 0.1, 0)
-buttonEsp.Text = "Toggle ESP"
-buttonEsp.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-buttonEsp.BorderSizePixel = 0
-buttonEsp.Parent = EspToggleFrame
+    local buttonEsp = Instance.new("TextButton")
+    buttonEsp.Name = "ButtonEsp"
+    buttonEsp.Size = UDim2.new(0.8, 0, 0.8, 0)
+    buttonEsp.Position = UDim2.new(0.1, 0, 0.1, 0)
+    buttonEsp.Text = "Toggle ESP"
+    buttonEsp.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    buttonEsp.BorderSizePixel = 0
+    buttonEsp.Parent = EspToggleFrame
 
--- Connect the button click event to toggle ESP visibility
-buttonEsp.MouseButton1Click:Connect(ToggleEspVisibility)
+    -- Connect the button click event to toggle ESP visibility
+    buttonEsp.MouseButton1Click:Connect(ToggleEspVisibility)
+end
+
+-- Create ESP button initially
+createEspButton()
+
+-- Listen for new players
+game.Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        -- Recreate ESP button when player respawns
+        createEspButton()
+    end)
+end)
 
 -- Main loop to update ESP
 while true do
-    wait(0.5) -- Adjust the update frequency as needed
+    wait(UpdateTime) -- Adjust the update frequency as needed
 
     -- Check if ESP is enabled
     if IsEspEnabled then
@@ -223,4 +244,3 @@ while true do
         end
     end
 end
--- Helped by chat gpt, modified by xeterguyt, yes im lazy to script all of it cuz when there is an easy way why not?
