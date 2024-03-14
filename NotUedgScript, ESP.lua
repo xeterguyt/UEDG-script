@@ -106,7 +106,83 @@ end
 
 
 
+-- Function to create a notification message
+local function sendNotification(title, description)
+    local NotificationGui = Instance.new("ScreenGui")
+    NotificationGui.Name = "NotificationGui"
+    NotificationGui.Parent = game.Players.LocalPlayer.PlayerGui
 
+    local Frame = Instance.new("Frame")
+    Frame.Name = "NotificationFrame"
+    Frame.Size = UDim2.new(0.25, 0, 0.1, 0)
+    Frame.Position = UDim2.new(0.375, 0, 0.9, 0)
+    Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Frame.BorderSizePixel = 2
+    Frame.Parent = NotificationGui
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Name = "TitleLabel"
+    TitleLabel.Size = UDim2.new(1, 0, 0.5, 0)
+    TitleLabel.Position = UDim2.new(0, 0, 0, 0)
+    TitleLabel.Text = title
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Font = Enum.Font.SourceSansBold
+    TitleLabel.TextSize = 18
+    TitleLabel.Parent = Frame
+
+    local DescriptionLabel = Instance.new("TextLabel")
+    DescriptionLabel.Name = "DescriptionLabel"
+    DescriptionLabel.Size = UDim2.new(1, 0, 0.5, 0)
+    DescriptionLabel.Position = UDim2.new(0, 0, 0.5, 0)
+    DescriptionLabel.Text = description
+    DescriptionLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    DescriptionLabel.BackgroundTransparency = 1
+    DescriptionLabel.Font = Enum.Font.SourceSans
+    DescriptionLabel.TextSize = 16
+    DescriptionLabel.Parent = Frame
+
+    -- Auto remove after a certain time (e.g., 3 seconds)
+    wait(3)
+    NotificationGui:Destroy()
+end
+
+-- Example usage
+sendNotification("Running XESP", "Please wait")
+
+
+
+
+-- BORDAR SIR!----------------------____-_-------------!!!!!
+
+-- Function to create the notification text
+local function createNotificationText(message)
+    local NotificationGui = Instance.new("ScreenGui")
+    NotificationGui.Name = "NotificationGui"
+    NotificationGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Name = "NotificationText"
+    TextLabel.Size = UDim2.new(0.8, 0, 0.1, 0)
+    TextLabel.Position = UDim2.new(0.1, 0, 0.45, 0)
+    TextLabel.Text = message
+    TextLabel.TextColor3 = Color3.fromRGB(255, 0, 0) -- Red color
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.TextSize = 18
+    TextLabel.TextWrapped = true  -- Ensure text is wrapped
+    TextLabel.TextXAlignment = Enum.TextXAlignment.Center  -- Center align text horizontally
+    TextLabel.Parent = NotificationGui
+
+    -- Auto remove
+    wait(8)
+    NotificationGui:Destroy()
+end
+
+-- Create the notification text
+createNotificationText("Team indicator won't update, you must re-toggle the ESP to update the team indicator")
+
+-- OI OI OI OI OI BORDER
 
 
 -- Function to calculate distance between two points
@@ -149,16 +225,24 @@ local function createEspButton()
     buttonEsp.MouseButton1Click:Connect(ToggleEspVisibility)
 end
 
--- Create ESP button initially
-createEspButton()
+-- Function to handle player respawn
+local function handleRespawn()
+    -- Recreate ESP button when player respawns
+    createEspButton()
+end
 
 -- Listen for new players
 game.Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function(character)
-        -- Recreate ESP button when player respawns
-        createEspButton()
+        handleRespawn() -- Handle respawn
     end)
 end)
+
+-- Create ESP button initially
+createEspButton()
+
+-- Handle initial respawn
+game.Players.LocalPlayer.CharacterAdded:Connect(handleRespawn)
 
 -- Main loop to update ESP
 while true do
@@ -204,6 +288,12 @@ while true do
                     -- Attach the BillboardGui to the player's head
                     billboard.Parent = playerChar
                     
+                    -- Determine color based on player's team
+                    local teamColor = player.TeamColor.Color
+                    if player.Team then
+                        teamColor = player.Team.TeamColor.Color
+                    end
+                    
                     -- Create a BillboardGui for highlighting torso
                     local highlightBillboard = Instance.new("BillboardGui")
                     highlightBillboard.Name = "PlayerESPHighlight"
@@ -216,7 +306,7 @@ while true do
                     -- Create a Frame for highlighting the torso
                     local highlightFrame = Instance.new("Frame")
                     highlightFrame.Size = UDim2.new(1, 0, 1, 0)
-                    highlightFrame.BackgroundColor3 = Color3.new(0, 1, 0)  -- Adjust the color as needed
+                    highlightFrame.BackgroundColor3 = teamColor  -- Use team color
                     highlightFrame.BackgroundTransparency = 0.5  -- Adjust the transparency as needed
                     highlightFrame.Parent = highlightBillboard
 
@@ -244,3 +334,5 @@ while true do
         end
     end
 end
+
+-- BORDED SIR GOO AAWAY
